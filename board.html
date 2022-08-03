@@ -1,0 +1,517 @@
+<!DOCTYPE html5>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div style="display:flex">
+        <div>
+            <div>
+                <label>Number of players: </label>
+                <select name="playerNumbers" id="playerNumbers">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <hr>
+            <div id="players-color-container">
+                <div class="player-details">
+                    <div><span> Colors:</span></div>
+                    <div class="color-picker blue"><input type="checkbox" name="checkbox"></div>
+                    <div class="color-picker red"><input type="checkbox" name="checkbox"></div>
+                    <div class="color-picker green"><input type="checkbox" name="checkbox"></div>
+                    <div class="color-picker orange"><input type="checkbox" name="checkbox"></div>
+                </div>
+            </div>
+            <div>
+                <button onclick="start()">Start!</button>
+            </div>
+            <div>
+                <p>Active player: <span id="activePlayer"></span></p>
+            </div>
+        </div>
+        <div class="container">
+            <table>
+                <tr>
+                    <td colspan="4" rowspan="4" class="blue">
+                        <div class="circle-large circle-blue">
+                            <div class="circle-outside-container">
+                                <div id="blue-bench-1" class="circle-outside">
+
+                                </div>
+                                <div id="blue-bench-2" class="circle-outside">
+
+                                </div>
+                                <div id="blue-bench-3" class="circle-outside">
+
+                                </div>
+                                <div id="blue-bench-4" class="circle-outside">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="arrow">
+                            <div class="line"></div>
+                            <div class="point"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="9" data-orange-number="18" data-green-number="27"
+                            data-red-number="36">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="10" data-orange-number="19"
+                            data-green-number="28" data-red-number="37">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position red start-step" data-red-number="1">
+
+                        </div>
+                    </td>
+                    <td colspan="4" rowspan="4" class="red">
+                        <div class="circle-large circle-red">
+                            <div class="circle-outside-container">
+                                <div id="red-bench-1" class="circle-outside">
+
+                                </div>
+                                <div id="red-bench-2" class="circle-outside">
+
+                                </div>
+                                <div id="red-bench-3" class="circle-outside">
+
+                                </div>
+                                <div id="red-bench-4" class="circle-outside">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="arrow">
+                            <div class="line"></div>
+                            <div class="point"></div>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="8" data-orange-number="17" data-green-number="26"
+                            data-red-number="35">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position red final-step" data-red-final-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="11" data-orange-number="20"
+                            data-green-number="29" data-red-number="2">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="7" data-orange-number="16" data-green-number="25"
+                            data-red-number="34">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position red final-step" data-red-final-number="2">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="12" data-orange-number="21"
+                            data-green-number="30" data-red-number="3">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="6" data-orange-number="15" data-green-number="24"
+                            data-red-number="33">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position red final-step" data-red-final-number="3">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="13" data-orange-number="22"
+                            data-green-number="31" data-red-number="4">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position blue start-step" data-blue-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="2" data-orange-number="11" data-green-number="20"
+                            data-red-number="29">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="3" data-orange-number="12" data-green-number="21"
+                            data-red-number="30">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="4" data-orange-number="13" data-green-number="22"
+                            data-red-number="31">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="5" data-orange-number="14" data-green-number="23"
+                            data-red-number="32">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position red final-step" data-red-final-number="4">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="14" data-orange-number="23"
+                            data-green-number="32" data-red-number="5">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="15" data-orange-number="24"
+                            data-green-number="33" data-red-number="6">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="16" data-orange-number="25"
+                            data-green-number="34" data-red-number="7">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="17" data-orange-number="26"
+                            data-green-number="35" data-red-number="8">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="18" data-orange-number="27"
+                            data-green-number="36" data-red-number="9">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="37" data-orange-number="10"
+                            data-green-number="19" data-red-number="28">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position blue final-step" data-blue-final-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position blue final-step" data-blue-final-number="2">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position blue final-step" data-blue-final-number="3">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position blue final-step" data-blue-final-number="4">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dice">
+                            <button type="button" id="dice-button" value="" disabled>
+                                <img id="dice-image" src="images/6.png" alt="">
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position green final-step" data-green-final-number="4">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position green final-step" data-green-final-number="3">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position green final-step" data-green-final-number="2">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position green final-step" data-green-final-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="19" data-orange-number="28"
+                            data-green-number="37" data-red-number="10">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="36" data-orange-number="9" data-green-number="18"
+                            data-red-number="27">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="35" data-orange-number="8" data-green-number="17"
+                            data-red-number="26">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="34" data-orange-number="7" data-green-number="16"
+                            data-red-number="25">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="33" data-orange-number="6" data-green-number="15"
+                            data-red-number="24">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="32" data-orange-number="5" data-green-number="14"
+                            data-red-number="23">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position orange final-step" data-orange-final-number="4">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="23" data-orange-number="32" data-green-number="5"
+                            data-red-number="14">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="22" data-orange-number="31" data-green-number="4"
+                            data-red-number="13">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="21" data-orange-number="30" data-green-number="3"
+                            data-red-number="12">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="20" data-orange-number="29" data-green-number="2"
+                            data-red-number="11">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position green start-step" data-green-number="1">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" rowspan="4" class="orange">
+                        <div class="circle-large circle-orange">
+                            <div class="circle-outside-container">
+                                <div id="orange-bench-1" class="circle-outside">
+
+                                </div>
+                                <div id="orange-bench-2" class="circle-outside">
+
+                                </div>
+                                <div id="orange-bench-3" class="circle-outside">
+
+                                </div>
+                                <div id="orange-bench-4" class="circle-outside">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="arrow">
+                            <div class="line"></div>
+                            <div class="point"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="31" data-orange-number="4" data-green-number="13"
+                            data-red-number="22">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position orange final-step" data-orange-final-number="3">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="24" data-orange-number="33" data-green-number="6"
+                            data-red-number="15">
+
+                        </div>
+                    </td>
+                    <td colspan="4" rowspan="4" class="green">
+                        <div class="circle-large circle-green">
+                            <div class="circle-outside-container">
+                                <div id="green-bench-1" class="circle-outside">
+
+                                </div>
+                                <div id="green-bench-2" class="circle-outside">
+
+                                </div>
+                                <div id="green-bench-3" class="circle-outside">
+
+                                </div>
+                                <div id="green-bench-4" class="circle-outside">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="arrow">
+                            <div class="line"></div>
+                            <div class="point"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        <div class="circle-position" data-blue-number="30" data-orange-number="3" data-green-number="12"
+                            data-red-number="21">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position orange final-step" data-orange-final-number="2">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="25" data-orange-number="34" data-green-number="7"
+                            data-red-number="16">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position" data-blue-number="29" data-orange-number="2" data-green-number="11"
+                            data-red-number="20">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position orange final-step" data-orange-final-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="26" data-orange-number="35" data-green-number="8"
+                            data-red-number="17">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="circle-position orange start-step" data-orange-number="1">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="28" data-orange-number="37"
+                            data-green-number="10" data-red-number="19">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="circle-position" data-blue-number="27" data-orange-number="36" data-green-number="9"
+                            data-red-number="18">
+
+                        </div>
+                    </td>
+
+                </tr>
+       
+            </table>
+        </div>
+    </div>
+    <div class="piece-container" id="blue-container-1" style="top:137px; left:56px"><img id="blue-1"
+            src="images/blue.svg" alt="blue"></div>
+    <div class="piece-container" id="blue-container-2" style="top: 137px;left: 116px;"><img id="blue-2"
+            src="images/blue.svg" alt="blue"></div>
+    <div class="piece-container" id="blue-container-3" style="top: 77px;left: 56px;"><img id="blue-3"
+            src="images/blue.svg" alt="blue"></div>
+    <div class="piece-container" id="blue-container-4" style="top:77px; left:116px"><img id="blue-4"
+            src="images/blue.svg" alt="blue"></div>
+    <div class="piece-container" id="red-container-1" style="top:108px; left:597px"><img id="red-1" src="images/red.svg"
+            alt="red"></div>
+    <div class="piece-container" id="red-container-2" style="top: 108px;left: 657px;"><img id="red-2"
+            src="images/red.svg" alt="red"></div>
+    <div class="piece-container" id="red-container-3" style="top: 48px;left: 597px;"><img id="red-3"
+            src="images/red.svg" alt="red"></div>
+    <div class="piece-container" id="red-container-4" style="top: 48px;left: 657px;"><img id="red-4"
+            src="images/red.svg" alt="red"></div>
+    <div class="piece-container" id="orange-container-1" style="top: 678px;left: 84px;"><img id="orange-1"
+            src="images/orange.svg" alt="orange"></div>
+    <div class="piece-container" id="orange-container-2" style="top: 678px;left: 144px;"><img id="orange-2"
+            src="images/orange.svg" alt="orange"></div>
+    <div class="piece-container" id="orange-container-3" style="top: 618px;left: 84px;"><img id="orange-3"
+            src="images/orange.svg" alt="orange"></div>
+    <div class="piece-container" id="orange-container-4" style="top: 618px;left: 144px;"><img id="orange-4"
+            src="images/orange.svg" alt="orange"></div>
+    <div class="piece-container" id="green-container-1" style="top:650px; left:625px"><img id="green-1"
+            src="images/green.svg" alt="green"></div>
+    <div class="piece-container" id="green-container-2" style="top:650px; left:685px"><img id="green-2"
+            src="images/green.svg" alt="green"></div>
+    <div class="piece-container" id="green-container-3" style="top:590px; left:625px"><img id="green-3"
+            src="images/green.svg" alt="green"></div>
+    <div class="piece-container" id="green-container-4" style="top:590px; left:685px"><img id="green-4"
+            src="images/green.svg" alt="green"></div>
+</body>
+
+</html>
