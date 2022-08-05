@@ -1,24 +1,43 @@
+:root {
+    --disabled: #eee;
+    /* --yellow: #f4df36cc; */
+    --yellow: #f8e437;
+    --blue: #3B62A3;
+    --red: #d24a4a;
+    --orange: #ffc107;
+    --green: #3d7260;
+    --screen:calc(90vmin);
+}
 
-*:disabled{
-    background-color: #eee;
+*:disabled {
+    background-color: var(--disabled);
     opacity: .5;
     cursor: not-allowed;
 }
-body{
+
+body {
     text-align: center;
     font-size: 14pt;
     overflow: hidden;
 }
-select{
-    min-width: 50px;
-    height: 24px;
+
+select {
+    min-width: 6vmin;
+    height: 2.88vmin;
 }
+
 .container {
-    width: 750px;
-    height: 750px;
-    padding: 15px;
-    background-color: #f4df36cc;
+    width: var(--screen);
+    height: var(--screen);
+    padding: 1.8vmin;
     margin: auto;
+    /* background-color: var(--yellow); */
+    background: url('images/Wood_background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
 }
 
 div[class^='circle'],
@@ -28,64 +47,66 @@ div[class*='circle'] {
 
 div[class^='blue'],
 div[class*='blue'] {
-    background-color: #3B62A3;
+    background-color: var(--blue);
 }
 
 div[class^='red'],
 div[class*='red'] {
-    background-color: #d24a4a;
+    background-color: var(--red);
 }
 
 div[class^='orange'],
 div[class*='orange'] {
-    background-color: #ffc107;
+    background-color: var(--yellow);
 }
 
 div[class^='green'],
 div[class*='green'] {
-    background-color: #3d7260;
+    background-color: var(--green);
 }
 
 .circle-position {
     border: 2px solid darkgray;
     background-color: white;
-    width: 60px;
-    height: 60px;
+    width: 7.2vmin;
+    height: 7.2vmin;
+    box-shadow: 5px 5px 4px #888;
 }
 
 .circle-large {
-    width: 170px;
-    height: 170px;
+    width: 20.4vmin;
+    height: 20.4vmin;
     text-align: center;
+    box-shadow: 5px 5px 4px #888;
 }
 
 .circle-outside-container {
     position: relative;
-    top: 27px
+    top: 3.24vmin
 }
 
 .circle-outside {
     display: inline-block;
-    background-color: white;
-    width: 50px;
-    height: 50px;
-    margin: 3px;
+    background-color: #d2d2d2;
+    width: 6vmin;
+    height: 6vmin;
+    margin: 0.36vmin;
 }
 
 .circle-blue {
-    background-color: #3B62A3;
+    background-color: var(--blue);
 }
 
 .circle-red {
-    background-color: #d24a4a;
+    background-color: var(--red);
 }
 
 .circle-orange {
-    background-color: #ffc107;
+    background-color: var(--yellow);
 }
 
 .circle-green {
-    background-color: #3d7260;
+    background-color: var(--green);
 }
 
 td.red {
@@ -101,64 +122,64 @@ td.green {
 }
 
 .arrow {
-    width: 100px;
+    width: 12vmin;
     position: relative;
-    top: 25px;
+    top: 3vmin;
 }
 
 
 
 .line {
-    margin-top: 15px;
-    width: 70px;
-    height: 10px;
+    margin-top: 1.8vmin;
+    width: 8.4vmin;
+    height: 1.2vmin;
     float: left;
 }
 
 .point {
     width: 0;
     height: 0;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
+    border-top: 2.4vmin solid transparent;
+    border-bottom: 2.4vmin solid transparent;
     float: right;
 }
 
 .red .line {
-    background: #d24a4a
+    background: var(--red);
 }
 
 .blue .line {
-    background: #3B62A3;
+    background: var(--blue);
 }
 
 .orange .line {
-    background: #ffc107
+    background: var(--yellow)
 }
 
 .green .line {
-    background: #3d7260
+    background: var(--green)
 }
 
 .red .point {
-    border-left: 30px solid #d24a4a
+    border-left: 3.6vmin solid var(--red)
 }
 
 .blue .point {
-    border-left: 30px solid #3B62A3;
+    border-left: 3.6vmin solid var(--blue);
 }
 
 .orange .point {
-    border-left: 30px solid #ffc107
+    border-left: 3.6vmin solid var(--yellow)
 }
 
 .green .point {
-    border-left: 30px solid #3d7260
+    border-left: 3.6vmin solid var(--green)
 }
 
 .final-step {
     border: 2px solid #444444;
-    width: 55px;
-    height: 55px;
+    width: 6.6vmin;
+    height: 6.6vmin;
     text-align: center;
     margin: auto;
 }
@@ -169,7 +190,7 @@ td.green {
 
 .piece-container {
     position: absolute;
-    width: 50px;
+    width: 6vmin;
     background-color: #00000045;
     border-radius: 50px;
     cursor: pointer;
@@ -180,7 +201,7 @@ td.green {
 }
 
 .dice {
-    width: 60px;
+    width: 7.2vmin;
 }
 
 .dice button {
@@ -190,22 +211,23 @@ td.green {
 }
 
 .dice img {
-    width: 50px;
+    width: 6vmin;
     border-radius: 12px;
 }
 
-.color-picker{
-    width: 20px;
-    height: 20px;
+.color-picker {
+    width: 2.4vmin;
+    height: 2.4vmin;
     border: black solid 1px;
     display: inline-block;
     margin: 5px;
     text-align: center;
 }
-.color-picker input{
+
+.color-picker input {
     margin: 4px auto;
 }
 
-.player-details{
+.player-details {
     display: flex;
 }

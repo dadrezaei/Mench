@@ -116,7 +116,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 const init = () => {
+    resetPieces();
     quitAllPices();
+    playingColors = [];
+    activePlayerNumber = 0;
+    disableDice();
     document.getElementById("dice-button").addEventListener("click", async function () {
         await diceClick();
     });
@@ -140,9 +144,20 @@ const init = () => {
     window.addEventListener("resize", function () {
         onWindowResized();
     })
+    
 }
 
 const start = () => {
+    var audio = new Audio('audio/knock-wood-door.m4a');
+    audio.play();
+    if (playingColors.length > 0) {
+        if (confirm("Restart the game!") != true) {
+            return;
+        }
+        else {
+            init();
+        }
+    }
     playingColors = [];
     const playersCount = document.getElementById("playerNumbers").value;
     const selectedColors = document.querySelectorAll(".color-picker input:checked");
@@ -174,6 +189,8 @@ const diceClick = async () => {
     if (rand == 6) {
         if (hasItemOnBoard == true) {
             player.moves.push(rand);
+            showActivePlayerDetails();
+
             enableDice();
             return;
         }
@@ -189,8 +206,12 @@ const diceClick = async () => {
             return;
         }
         player.moves.push(rand);
+        showActivePlayerDetails();
+
         if (playerCanMove(player) == false) {
             player.moves = [0];
+            showActivePlayerDetails();
+
             nextTurn();
             return;
         }
@@ -213,6 +234,8 @@ const pieceClick = (pieceContainer) => {
             const isEntered = enterPiece(activePlayerNumber, piece.number);
             if (isEntered == true) {
                 player.moves = [0];
+                showActivePlayerDetails();
+
                 nextTurn();
             }
             return;
@@ -234,8 +257,10 @@ const pieceClick = (pieceContainer) => {
         return;
     }
     piece.position += move;
-    movePiece(piece, color, itemNumber);
+    movePiece(piece, color, itemNumber, move);
     player.moves.splice(player.moves.indexOf(move), 1);
+    showActivePlayerDetails();
+
     if (player.moves.reduce(add, 0) < 1 || playerCanMove(player) == false) {
         if (isGameFinished(player) == true) {
             alert("Player " + player.color + " has wone the race!")
@@ -254,8 +279,9 @@ const enterPiece = (activePlayerNumber, pieceNumber) => {
     const start = document.querySelector("." + color + ".start-step");
     const rect = start.getBoundingClientRect();
     const container = document.getElementById(color + "-container-" + pieceNumber);
-    container.style.top = rect.top;// + document.scrollingElement.scrollHeight - document.scrollingElement.offsetHeight;
-    container.style.left = rect.left + 7;//+ document.scrollingElement.scrollWidth - document.scrollingElement.offsetWidth;
+    translate(container, rect.left + 7, rect.top);
+    // container.style.top = rect.top;// + document.scrollingElement.scrollHeight - document.scrollingElement.offsetHeight;
+    // container.style.left = rect.left + 7;//+ document.scrollingElement.scrollWidth - document.scrollingElement.offsetWidth;
     const piece = player.items.filter(x => x.number == pieceNumber)[0];
     piece.position = 1;
     piece.isOnBoard = true;
@@ -267,25 +293,34 @@ const nextTurn = () => {
     if (activePlayerNumber >= playingColors.length) {
         activePlayerNumber = 0;
     }
-    document.getElementById("activePlayer").innerHTML = playingColors[activePlayerNumber];
+    showActivePlayerDetails();
     enableDice();
 }
 
-const movePiece = (piece, color, itemNumber) => {
+const movePiece = async (piece, color, itemNumber, move) => {
     let destination = null;
-    if (piece.position > 37) {
-        const finalItemNumber = piece.position - 37;
-        destination = document.querySelector("div[data-" + color + "-final-number='" + finalItemNumber + "']");
-        console.log("div[data-" + color + "-final-number='" + finalItemNumber + "']");
+    for (let i = move - 1; i >= 0; i--) {
+        let num = piece.position - i;
+        if (num > 37) {
+            const finalItemNumber = num - 37;
+            console.log(`div[data-${color}-final-number='${finalItemNumber}']`);
+            destination = document.querySelector(`div[data-${color}-final-number='${finalItemNumber}']`);
+        }
+        else {
+            destination = document.querySelector("div[data-" + color + "-number='" + num + "']");
+            console.log(`div[data-${color}-number='${num}']`);
+        }
+        const rect = destination.getBoundingClientRect();
+        const container = document.getElementById(color + "-container-" + itemNumber);
+        translate(container, rect.left + 7, rect.top);
+        await sleep(400);
+        var audio = new Audio('audio/knock-wood-door.m4a');
+        audio.play();
+        await sleep(300);
     }
-    else {
-        destination = document.querySelector("div[data-" + color + "-number='" + piece.position + "']");
-        console.log("div[data-" + color + "-number='" + piece.position + "']");
-    }
-    const rect = destination.getBoundingClientRect();
-    const container = document.getElementById(color + "-container-" + itemNumber);
-    container.style.top = rect.top; //+ document.scrollingElement.scrollHeight - document.scrollingElement.offsetHeight;
-    container.style.left = rect.left + 7; //+ document.scrollingElement.scrollWidth - document.scrollingElement.offsetWidth;
+    showActivePlayerDetails();
+    // container.style.top = rect.top; //+ document.scrollingElement.scrollHeight - document.scrollingElement.offsetHeight;
+    // container.style.left = rect.left + 7; //+ document.scrollingElement.scrollWidth - document.scrollingElement.offsetWidth;
 }
 
 const toggleCheckboxes = () => {
@@ -325,8 +360,9 @@ const quitPiece = (color, number) => {
     const bench = document.getElementById(color + "-bench-" + number);
     var rect = bench.getBoundingClientRect();
     const container = document.getElementById(color + "-container-" + number);
-    container.style.top = rect.top - 7;
-    container.style.left = rect.left;
+    translate(container, rect.left, rect.top - 7);
+    // container.style.top = rect.top - 7;
+    // container.style.left = rect.left;
 }
 
 const hideNotPlayingColors = () => {
@@ -509,7 +545,7 @@ const relocatePices = () => {
         for (let j = 0; j < player.items.length; j++) {
             const item = player.items[j];
             if (item.isOnBoard) {
-                movePiece(item, player.color, item.number);
+                movePiece(item, player.color, item.number, 1);
             }
             else {
                 quitPiece(player.color, item.number);
@@ -546,33 +582,14 @@ const isGameFinished = (player) => {
 const rollDice = async () => {
     const rand = Math.floor(Math.random() * 6) + 1;
 
-    if (rand != 1) {
-        document.getElementById("dice-image").src = "images/1.png";
-        await sleep(100);
-    }
-    if (rand != 2) {
-        document.getElementById("dice-image").src = "images/2.png";
-        await sleep(100);
+    for (let i = 1; i < 6; i++) {
+        if (rand != i) {
+            document.getElementById("dice-image").src = `images/${i}.png`;
+            await sleep(100);
+        }
     }
 
-    if (rand != 4) {
-        document.getElementById("dice-image").src = "images/4.png";
-        await sleep(100);
-    }
-    if (rand != 6) {
-        document.getElementById("dice-image").src = "images/6.png";
-        await sleep(100);
-    }
-    if (rand != 5) {
-        document.getElementById("dice-image").src = "images/5.png";
-        await sleep(100);
-    }
-
-    if (rand != 3) {
-        document.getElementById("dice-image").src = "images/3.png";
-        await sleep(100);
-    }
-    document.getElementById("dice-image").src = "images/" + rand + ".png";
+    document.getElementById("dice-image").src = `images/${rand}.png`;
     return rand;
 }
 
@@ -621,4 +638,34 @@ const openFullscreen = () => {
 
 const add = (accumulator, a) => {
     return accumulator + a;
+}
+
+const showActivePlayerDetails = () => {
+    const color = playingColors[activePlayerNumber];
+    const player = pieces.filter(x => x.color == color)[0];
+    document.getElementById("activePlayer").innerHTML = color + ": " + player.moves.filter(x => x != 0);
+}
+
+const translate = (elem, x, y) => {
+    var left = parseInt(css(elem, 'left'), 10),
+        top = parseInt(css(elem, 'top'), 10),
+        dx = left - x,
+        dy = top - y,
+        i = 1,
+        count = 20,
+        delay = 20;
+
+    function loop() {
+        if (i >= count) { return; }
+        i += 1;
+        elem.style.left = (left - (dx * i / count)).toFixed(0) + 'px';
+        elem.style.top = (top - (dy * i / count)).toFixed(0) + 'px';
+        setTimeout(loop, delay);
+    }
+
+    loop();
+}
+
+const css = (element, property) => {
+    return window.getComputedStyle(element, null).getPropertyValue(property);
 }
